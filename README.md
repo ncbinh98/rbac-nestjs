@@ -71,5 +71,6 @@ $ npm run test:cov
 ## Documents
 
 CASL: https://mfi.engineering/extensible-and-secure-authorization-with-nestjs-and-casl-c6f6d1ceefd5
+RBAC: https://medium.com/yavar/casl-roles-with-persisted-permissions-in-nestjs-152129f4a6fb
 
 Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
