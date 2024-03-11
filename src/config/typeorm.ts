@@ -13,7 +13,7 @@ const config = {
   database: `${process.env.TYPEORM_MYSQL_DB}`,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/database/migrations/*{.ts,.js}'],
-  autoLoadEntities: true,
+  autoLoadEntities: false,
   synchronize: false,
 };
 

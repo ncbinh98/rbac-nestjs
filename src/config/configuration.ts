@@ -7,4 +7,8 @@ export default () => ({
     password: process.env.TYPEORM_MYSQL_PASSWORD,
     db: process.env.TYPEORM_MYSQL_DB,
   },
+  jwt: {
+    secretKey: process.env.JWT_SECRET,
+    EXP: process.env.JWT_EXP,
+  },
 });

@@ -1,19 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { hash } from 'bcrypt';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const saltOrRounds = 10;
+      createUserDto.password = await hash(createUserDto.password, saltOrRounds);
+      const user = await this.usersRepository.save(createUserDto);
+      delete user.password;
+      return user;
+    } catch (error) {
+      if (
+        String(error.sqlMessage).includes('user.IDX_78a916df40e02a9deb1c4b75ed')
+      ) {
+        throw new BadRequestException({
+          error: 'Bad Request',
+          message: ['username.duplicate'],
+          statusCode: HttpStatus.BAD_REQUEST,
+        });
+      }
+      throw new BadRequestException(error);
+    }
   }
 
   findAll() {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        username,
+      },
+      select: ['id', 'username', 'age', 'name'],
+    });
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
