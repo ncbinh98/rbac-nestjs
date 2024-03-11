@@ -1,0 +1,25 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  db:
+    #platform: linux/amd64
+#    hostname: mysql
+    container_name: demo-db
+    # build: ./docker/mysql
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldb:/var/lib/mysql
+      # - ./mysql:/var/run/mysqld
+    command: 'mysqld --innodb-flush-method=fsync --innodb-use-native-aio=0'
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_DATABASE: demo
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    
+volumes:
+  mysqldb:
