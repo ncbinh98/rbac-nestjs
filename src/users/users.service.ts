@@ -48,7 +48,6 @@ export class UsersService {
       where: {
         username,
       },
-      select: ['id', 'username', 'age', 'name'],
     });
     return user;
   }
