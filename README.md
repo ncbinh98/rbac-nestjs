@@ -68,6 +68,12 @@ $ npm run test:cov
 
 "migration:revert": Revert the changes
 
+## Debug MetaData Notfound Typeorm 0.3.2
+
+https://medium.com/@JorgeSantanaDeveloper/troubleshooting-the-no-metadata-was-found-error-in-typeorm-2fab1003b099
+
+https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm-is-deprecated <- remember init datasource
+
 ## Documents
 
 CASL: https://mfi.engineering/extensible-and-secure-authorization-with-nestjs-and-casl-c6f6d1ceefd5

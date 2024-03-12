@@ -12,7 +12,7 @@ import {
 @Entity()
 export class Permission {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column()
   action: string;
@@ -25,6 +25,9 @@ export class Permission {
 
   @Column({ type: 'simple-json', nullable: true })
   conditions: {};
+
+  @Column({ type: 'simple-array', nullable: true })
+  fields: string[];
 
   @Column({ nullable: true })
   reason: string;

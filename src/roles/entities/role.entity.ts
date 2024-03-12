@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,7 +15,7 @@ import {
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column()
   name: string;
@@ -26,6 +28,10 @@ export class Role {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToOne((type) => Role, { nullable: true })
+  @JoinColumn()
+  inheritance: Role;
 
   @OneToMany(() => User, (user) => user.role)
   users: User[];

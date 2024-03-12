@@ -8,8 +8,11 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { StoriesModule } from './stories/stories.module';
+import { CaslModule } from './casl/casl.module';
 import configuration from './config/configuration';
 import typeorm from './config/typeorm';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
@@ -31,8 +34,15 @@ import typeorm from './config/typeorm';
     RolesModule,
     PermissionsModule,
     StoriesModule,
+    CaslModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}
