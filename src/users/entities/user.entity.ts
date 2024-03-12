@@ -1,5 +1,13 @@
 import { IsString, Matches, MinLength } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/roles/entities/role.entity';
+import { Story } from 'src/stories/entities/story.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -22,4 +30,10 @@ export class User {
 
   @Column({ nullable: true })
   age?: number;
+
+  @ManyToOne(() => Role, (role) => role.users)
+  role: Role;
+
+  @OneToMany(() => Story, (st) => st.createdUser)
+  stories: Story[];
 }
