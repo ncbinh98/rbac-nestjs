@@ -12,6 +12,7 @@ export class PermissionsService {
     private permissionRepository: Repository<Permission>,
   ) {}
   async create(createPermissionDto: CreatePermissionDto) {
+    console.log('@@@createPermissionDto', createPermissionDto);
     return await this.permissionRepository.save(createPermissionDto);
   }
 

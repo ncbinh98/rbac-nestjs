@@ -6,6 +6,7 @@ export interface RequiredRule {
   action: string;
   subject: string;
   conditions?: any;
+  fields?: boolean;
 }
 
 export const checkAbilites = (...requirements: RequiredRule[]) =>

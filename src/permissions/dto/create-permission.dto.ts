@@ -1,4 +1,10 @@
-import { IsBoolean, IsObject, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreatePermissionDto {
   @IsString()
@@ -19,6 +25,10 @@ export class CreatePermissionDto {
   @IsObject()
   @IsOptional()
   conditions?: {};
+
+  @IsArray()
+  @IsOptional()
+  fields?: string[];
 
   @IsString()
   @IsOptional()

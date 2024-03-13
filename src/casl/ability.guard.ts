@@ -59,47 +59,49 @@ export class AbilitiesGuard implements CanActivate {
       [];
     const currentUser = context.switchToHttp().getRequest().user;
     const request = context.switchToHttp().getRequest();
-    console.log('@@@currentUser', currentUser);
     const userPermissions = await connectionSource.manager
       .getRepository(Permission)
       .find({
         where: {
           role: {
-            id: currentUser.roleId,
+            id: currentUser.role.id,
           },
         },
       });
-    console.log('@@@userPermissions', userPermissions);
 
     const parsedUserPermissions = this.parseCondition(
       userPermissions,
       currentUser,
     );
-    console.log('@@@parsedUserPermissions', parsedUserPermissions);
 
     try {
       const ability = this.createAbility(Object(parsedUserPermissions));
-      console.log('@@@rules', rules);
       for await (const rule of rules) {
         let sub = {};
-        if (size(rule?.conditions)) {
-          const subId = +request.params['id'];
+
+        // Check conditions for each rule
+        if (rule?.conditions) {
+          //This section requires redesigning to allow for more dynamic conditions...
+          const subId = request.params['id'];
           sub = await this.getSubjectById(subId, rule.subject);
         }
-        console.log(
-          '@@@rule.action, subject(rule.subject, sub)',
-          rule.action,
-          subject(rule.subject, sub),
-        );
-        console.log('@@@ability', ability);
 
+        // Check fields for each rule
+        if (rule.fields) {
+          Object.keys(request.body).forEach((k, v) => {
+            ForbiddenError.from(ability)
+              // .setMessage('You are not allowed to perform this action')
+              .throwUnlessCan(rule.action, subject(rule.subject, sub), k);
+          });
+        }
+
+        // Check overall rule permission
         ForbiddenError.from(ability)
           .setMessage('You are not allowed to perform this action')
           .throwUnlessCan(rule.action, subject(rule.subject, sub));
       }
       return true;
     } catch (error) {
-      console.log('@@@error', error);
       if (error instanceof ForbiddenError) {
         throw new ForbiddenException(error.message);
       }
@@ -107,19 +109,26 @@ export class AbilitiesGuard implements CanActivate {
     }
   }
 
-  /* 
-    Parse userId to template createdUserId: {{id}}. check permission only owner can edit story
-  */
+  /**
+   * @example
+   * convert template field to actual value in conditions
+   * eg: conditions: { id: {{id}} } => conditions: { id:  "5d76a536-de0a-4152-8dc2-998a4720a177" }
+   */
   parseCondition(permissions: any, currentUser: User) {
     const data = map(permissions, (permission) => {
       if (size(permission.conditions)) {
-        const parsedVal = Mustache.render(
-          permission.conditions['createdUserId'],
-          currentUser,
-        );
+        const preConds = {};
+        Object.keys(permission.conditions).forEach((k, v) => {
+          const parsedVal = Mustache.render(
+            permission.conditions[k],
+            currentUser,
+          );
+          preConds[k] = parsedVal;
+        });
+
         return {
           ...permission,
-          conditions: { createdUserId: parsedVal },
+          conditions: preConds,
         };
       }
       return permission;
@@ -127,7 +136,7 @@ export class AbilitiesGuard implements CanActivate {
     return data;
   }
 
-  async getSubjectById(id: number, subName: string) {
+  async getSubjectById(id: string, subName: string) {
     const subject = await connectionSource.query(
       `SELECT * from ${String(subName).toLowerCase()} WHERE id = '${id}'`,
     );

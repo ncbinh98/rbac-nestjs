@@ -53,10 +53,10 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  async findOne(username: string) {
+  async findOne(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
-        username,
+        id,
       },
       relations: ['role'],
     });

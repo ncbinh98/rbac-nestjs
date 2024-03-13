@@ -68,6 +68,10 @@ $ npm run test:cov
 
 "migration:revert": Revert the changes
 
+## CASL
+
+- Suport dynamic role...
+
 ## Debug MetaData Notfound Typeorm 0.3.2
 
 https://medium.com/@JorgeSantanaDeveloper/troubleshooting-the-no-metadata-was-found-error-in-typeorm-2fab1003b099
