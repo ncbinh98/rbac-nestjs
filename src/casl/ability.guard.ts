@@ -29,6 +29,7 @@ import { Permission } from 'src/permissions/entities/permission.entity';
 import { In } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { UtilsService } from 'src/utils/utils.service';
 
 export const actions = [
   'read',
@@ -60,6 +61,10 @@ export class AbilitiesGuard implements CanActivate {
   createAbility = (rules: RawRuleOf<AppAbility>[]) =>
     createMongoAbility<AppAbility>(rules);
 
+  getKeyPermissionRedis(roleId): string {
+    return `permission:${roleId}`;
+  }
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const rules: any =
       this.reflector.get<RequiredRule[]>(CHECK_ABILITY, context.getHandler()) ||
@@ -67,7 +72,7 @@ export class AbilitiesGuard implements CanActivate {
     const currentUser = context.switchToHttp().getRequest().user;
     const request = context.switchToHttp().getRequest();
     let permissionCached: any = await this.cacheManager.get(
-      currentUser.role.id,
+      this.getKeyPermissionRedis(currentUser.role.id),
     );
 
     // Cache permissions of the role
@@ -96,7 +101,7 @@ export class AbilitiesGuard implements CanActivate {
 
       //Cache permissions in 15mins
       await this.cacheManager.set(
-        currentUser.role.id,
+        this.getKeyPermissionRedis(currentUser.role.id),
         parsedUserPermissions,
         900_000, //15mins
       );

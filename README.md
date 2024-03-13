@@ -68,24 +68,6 @@ $ npm run test:cov
 
 "migration:revert": Revert the changes
 
-## CASL
-
-- Suport inheritance role: https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
-
-- Support retricting fields
-
-- RBAC
-
-## Caching
-
-- https://medium.com/@mut1aq/using-redis-in-nestjs-8ca1a009670f
-
-- https://geshan.com.np/blog/2022/01/redis-docker/
-
-## Distributed Counter System
-
-- https://systemdesign.one/distributed-counter-system-design/ (count something...)
-
 ## Debug MetaData Notfound Typeorm 0.3.2
 
 https://medium.com/@JorgeSantanaDeveloper/troubleshooting-the-no-metadata-was-found-error-in-typeorm-2fab1003b099
@@ -94,8 +76,30 @@ https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm
 
 ## Documents
 
-CASL: https://mfi.engineering/extensible-and-secure-authorization-with-nestjs-and-casl-c6f6d1ceefd5
+### CASL
 
-RBAC: https://medium.com/yavar/casl-roles-with-persisted-permissions-in-nestjs-152129f4a6fb
+- CASL: https://mfi.engineering/extensible-and-secure-authorization-with-nestjs-and-casl-c6f6d1ceefd5
 
-Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
+- Suport inheritance role: https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
+
+- Support retricting fields
+
+- RBAC: https://medium.com/yavar/casl-roles-with-persisted-permissions-in-nestjs-152129f4a6fb
+
+### Caching
+
+- Setup redis in nestjs https://medium.com/@mut1aq/using-redis-in-nestjs-8ca1a009670f (using package cache-manager-redis-yet instead, bc ttl issues)
+
+- Setup redis docker: https://geshan.com.np/blog/2022/01/redis-docker/
+
+- Remove cache by key pattern: https://tech.oyorooms.com/finding-and-deleting-the-redis-keys-by-pattern-the-right-way-123629d7730
+
+- Best practise key for redis: `objectType:objectId:field ` : https://www.dragonflydb.io/guides/redis-best-practices
+
+### Setup Migration Typeorm Nestjs
+
+- Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
+
+### Distributed Counter System
+
+- https://systemdesign.one/distributed-counter-system-design/ (count something...)

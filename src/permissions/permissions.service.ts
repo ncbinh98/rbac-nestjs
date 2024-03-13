@@ -4,16 +4,19 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Permission } from './entities/permission.entity';
 import { Repository } from 'typeorm';
+import { UtilsService } from 'src/utils/utils.service';
 
 @Injectable()
 export class PermissionsService {
   constructor(
     @InjectRepository(Permission)
     private permissionRepository: Repository<Permission>,
+    private utilsService: UtilsService,
   ) {}
   async create(createPermissionDto: CreatePermissionDto) {
-    console.log('@@@createPermissionDto', createPermissionDto);
-    return await this.permissionRepository.save(createPermissionDto);
+    const perm = await this.permissionRepository.save(createPermissionDto);
+    this.utilsService.deleteKeyRedisByPattern(0, 'permission:*', 100);
+    return perm;
   }
 
   findAll() {
