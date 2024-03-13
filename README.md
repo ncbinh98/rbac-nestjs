@@ -72,9 +72,13 @@ $ npm run test:cov
 
 - Suport inheritance role: https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
 
-- Support fields retrict
+- Support retricting fields
 
 - RBAC
+
+## Distributed Counter System
+
+- https://systemdesign.one/distributed-counter-system-design/ (count something...)
 
 ## Debug MetaData Notfound Typeorm 0.3.2
 
