@@ -94,6 +94,8 @@ https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm
 
 - Remove cache by key pattern: https://tech.oyorooms.com/finding-and-deleting-the-redis-keys-by-pattern-the-right-way-123629d7730
 
+- Best practise key for redis: `objectType:objectId:field ` : https://www.dragonflydb.io/guides/redis-best-practices
+
 ### Setup Migration Typeorm Nestjs
 
 - Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75

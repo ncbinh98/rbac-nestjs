@@ -15,6 +15,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisOptions } from './config/redis.config';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { RedisOptions } from './config/redis.config';
     PermissionsModule,
     StoriesModule,
     CaslModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [
