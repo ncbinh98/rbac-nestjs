@@ -4,12 +4,12 @@ version: '3.1'
 services:
   db:
     #platform: linux/amd64
-#    hostname: mysql
+    #    hostname: mysql
     container_name: demo-db
     # build: ./docker/mysql
     image: mysql
     ports:
-      - "3306:3306"
+      - '3306:3306'
     volumes:
       - mysqldb:/var/lib/mysql
       # - ./mysql:/var/run/mysqld
@@ -20,6 +20,17 @@ services:
       MYSQL_DATABASE: demo
       MYSQL_ROOT_PASSWORD: root
     restart: always
-    
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+
 volumes:
   mysqldb:
+  cache:
+    driver: local

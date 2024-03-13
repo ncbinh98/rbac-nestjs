@@ -6,19 +6,23 @@ import {
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
+import { connectionSource } from 'src/config/typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
   async signIn(
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
-    const user = await this.usersService.findOne(username);
+    const user = await connectionSource.getRepository(User).findOne({
+      where: {
+        username,
+      },
+      relations: ['role'],
+    });
     if (!user) {
       throw new BadRequestException({
         message: 'User not found!',
@@ -28,7 +32,11 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.id, username: user.username };
+    const payload = {
+      id: user.id,
+      username: user.username,
+      role: user.role,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
       // access_token: 'any',

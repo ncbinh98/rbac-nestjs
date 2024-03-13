@@ -25,7 +25,6 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
 
 ## Installation
 
@@ -59,16 +58,44 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Migartions
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+"migration:run": Run migration from migration folder database/migrations
 
-## Stay in touch
+"migration:generate": Generate migration files changes in entity database
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+"migration:create": Create empty migration file
 
-## License
+"migration:revert": Revert the changes
 
-Nest is [MIT licensed](LICENSE).
+## CASL
+
+- Suport inheritance role: https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
+
+- Support retricting fields
+
+- RBAC
+
+## Caching
+
+- https://medium.com/@mut1aq/using-redis-in-nestjs-8ca1a009670f
+
+- https://geshan.com.np/blog/2022/01/redis-docker/
+
+## Distributed Counter System
+
+- https://systemdesign.one/distributed-counter-system-design/ (count something...)
+
+## Debug MetaData Notfound Typeorm 0.3.2
+
+https://medium.com/@JorgeSantanaDeveloper/troubleshooting-the-no-metadata-was-found-error-in-typeorm-2fab1003b099
+
+https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm-is-deprecated <- remember init datasource
+
+## Documents
+
+CASL: https://mfi.engineering/extensible-and-secure-authorization-with-nestjs-and-casl-c6f6d1ceefd5
+
+RBAC: https://medium.com/yavar/casl-roles-with-persisted-permissions-in-nestjs-152129f4a6fb
+
+Ref Implement Migration Typeorm NestJS https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75

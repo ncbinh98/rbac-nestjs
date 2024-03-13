@@ -11,6 +11,8 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { connectionSource } from 'src/config/typeorm';
+import { Role } from 'src/roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -21,6 +23,14 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const saltOrRounds = 10;
+      if (!createUserDto?.role?.id) {
+        const roleUser = await connectionSource.getRepository(Role).findOne({
+          where: {
+            name: 'User',
+          },
+        });
+        createUserDto.role = { id: roleUser.id };
+      }
       createUserDto.password = await hash(createUserDto.password, saltOrRounds);
       const user = await this.usersRepository.save(createUserDto);
       delete user.password;
@@ -43,11 +53,12 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  async findOne(username: string) {
+  async findOne(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
-        username,
+        id,
       },
+      relations: ['role'],
     });
     return user;
   }
