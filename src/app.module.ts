@@ -13,12 +13,16 @@ import configuration from './config/configuration';
 import typeorm from './config/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisOptions } from './config/redis.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration, typeorm],
     }),
+    CacheModule.registerAsync(RedisOptions),
+
     /* 
       Setup datasource for migration process and init database instance
     */

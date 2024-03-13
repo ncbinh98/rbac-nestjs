@@ -11,4 +11,11 @@ export default () => ({
     secretKey: process.env.JWT_SECRET,
     EXP: process.env.JWT_EXP,
   },
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASS,
+    common_db: process.env.REDIS_COMMON_DB,
+    ttl: process.env.REDIS_TTL,
+  },
 });

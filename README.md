@@ -76,6 +76,12 @@ $ npm run test:cov
 
 - RBAC
 
+## Caching
+
+- https://medium.com/@mut1aq/using-redis-in-nestjs-8ca1a009670f
+
+- https://geshan.com.np/blog/2022/01/redis-docker/
+
 ## Distributed Counter System
 
 - https://systemdesign.one/distributed-counter-system-design/ (count something...)

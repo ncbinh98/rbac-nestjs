@@ -21,11 +21,14 @@ import {
   ExecutionContext,
   NotFoundException,
   ForbiddenException,
+  Inject,
 } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { connectionSource } from 'src/config/typeorm';
 import { Permission } from 'src/permissions/entities/permission.entity';
 import { In } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 export const actions = [
   'read',
@@ -49,7 +52,10 @@ export type AppAbility = MongoAbility<Abilities>;
 
 @Injectable()
 export class AbilitiesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   createAbility = (rules: RawRuleOf<AppAbility>[]) =>
     createMongoAbility<AppAbility>(rules);
@@ -60,27 +66,46 @@ export class AbilitiesGuard implements CanActivate {
       [];
     const currentUser = context.switchToHttp().getRequest().user;
     const request = context.switchToHttp().getRequest();
-    const rolesInheritances = await connectionSource.query(
-      `with recursive cte (id, name, inheritanceId) as ( select id, name, inheritanceId from role where id = "${currentUser.role.id}" union all select r.id, r.name, r.inheritanceId from role r inner join cte on r.id = cte.inheritanceId ) select * from cte;`,
+    let permissionCached: any = await this.cacheManager.get(
+      currentUser.role.id,
     );
-    const roleIds = rolesInheritances.map((r) => r.id);
-    const userPermissions = await connectionSource.manager
-      .getRepository(Permission)
-      .find({
-        where: {
-          role: {
-            id: In(roleIds),
-          },
-        },
-      });
 
-    const parsedUserPermissions = this.parseCondition(
-      userPermissions,
-      currentUser,
-    );
+    // Cache permissions of the role
+    if (!permissionCached) {
+      /* The query is performing a recursive query to fetch all the roles and their inheritances
+      starting from the role of the current user. */
+      const rolesInheritances = await connectionSource.query(
+        `with recursive cte (id, name, inheritanceId) as ( select id, name, inheritanceId from role where id = "${currentUser.role.id}" union all select r.id, r.name, r.inheritanceId from role r inner join cte on r.id = cte.inheritanceId ) select * from cte;`,
+      );
+      const roleIds = rolesInheritances.map((r) => r.id);
+
+      const userPermissions = await connectionSource.manager
+        .getRepository(Permission)
+        .find({
+          where: {
+            role: {
+              id: In(roleIds),
+            },
+          },
+        });
+
+      const parsedUserPermissions = this.parseCondition(
+        userPermissions,
+        currentUser,
+      );
+
+      //Cache permissions in 15mins
+      await this.cacheManager.set(
+        currentUser.role.id,
+        parsedUserPermissions,
+        900_000, //15mins
+      );
+
+      permissionCached = parsedUserPermissions;
+    }
 
     try {
-      const ability = this.createAbility(Object(parsedUserPermissions));
+      const ability = this.createAbility(Object(permissionCached));
       for await (const rule of rules) {
         let sub = {};
 
