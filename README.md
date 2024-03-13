@@ -70,7 +70,11 @@ $ npm run test:cov
 
 ## CASL
 
-- Suport dynamic role...
+- Suport inheritance role: https://stackoverflow.com/questions/20215744/how-to-create-a-mysql-hierarchical-recursive-query
+
+- Support fields retrict
+
+- RBAC
 
 ## Debug MetaData Notfound Typeorm 0.3.2
 

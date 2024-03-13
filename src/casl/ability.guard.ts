@@ -25,6 +25,7 @@ import {
 import { User } from 'src/users/entities/user.entity';
 import { connectionSource } from 'src/config/typeorm';
 import { Permission } from 'src/permissions/entities/permission.entity';
+import { In } from 'typeorm';
 
 export const actions = [
   'read',
@@ -59,12 +60,16 @@ export class AbilitiesGuard implements CanActivate {
       [];
     const currentUser = context.switchToHttp().getRequest().user;
     const request = context.switchToHttp().getRequest();
+    const rolesInheritances = await connectionSource.query(
+      `with recursive cte (id, name, inheritanceId) as ( select id, name, inheritanceId from role where id = "${currentUser.role.id}" union all select r.id, r.name, r.inheritanceId from role r inner join cte on r.id = cte.inheritanceId ) select * from cte;`,
+    );
+    const roleIds = rolesInheritances.map((r) => r.id);
     const userPermissions = await connectionSource.manager
       .getRepository(Permission)
       .find({
         where: {
           role: {
-            id: currentUser.role.id,
+            id: In(roleIds),
           },
         },
       });
@@ -86,19 +91,19 @@ export class AbilitiesGuard implements CanActivate {
           sub = await this.getSubjectById(subId, rule.subject);
         }
 
-        // Check fields for each rule
-        if (rule.fields) {
-          Object.keys(request.body).forEach((k, v) => {
-            ForbiddenError.from(ability)
-              // .setMessage('You are not allowed to perform this action')
-              .throwUnlessCan(rule.action, subject(rule.subject, sub), k);
-          });
-        }
-
         // Check overall rule permission
         ForbiddenError.from(ability)
           .setMessage('You are not allowed to perform this action')
           .throwUnlessCan(rule.action, subject(rule.subject, sub));
+
+        // Check fields for each rule
+        if (rule.fields) {
+          Object.keys(request.body).forEach((k, v) => {
+            ForbiddenError.from(ability)
+              .setMessage(`You are not allowed to update field ${k}`)
+              .throwUnlessCan(rule.action, subject(rule.subject, sub), k);
+          });
+        }
       }
       return true;
     } catch (error) {
