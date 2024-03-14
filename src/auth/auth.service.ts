@@ -3,7 +3,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { connectionSource } from 'src/config/typeorm';
@@ -13,10 +12,7 @@ import { User } from 'src/users/entities/user.entity';
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  async signIn(
-    username: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
+  async validateUser(username: string, password: string): Promise<User> {
     const user = await connectionSource.getRepository(User).findOne({
       where: {
         username,
@@ -32,14 +28,13 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException();
     }
-    const payload = {
-      id: user.id,
-      username: user.username,
-      role: user.role,
-    };
+    return user;
+  }
+
+  async login(user: User) {
+    const payload = { sub: user.id, username: user.username, role: user.role }; // why we named sub for user.id? it's JWT standard...
     return {
-      access_token: await this.jwtService.signAsync(payload),
-      // access_token: 'any',
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

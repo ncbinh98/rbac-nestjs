@@ -10,7 +10,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { connectionSource } from 'src/config/typeorm';
 import { Role } from 'src/roles/entities/role.entity';
 

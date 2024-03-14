@@ -29,7 +29,6 @@ import { Permission } from 'src/permissions/entities/permission.entity';
 import { In } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { UtilsService } from 'src/utils/utils.service';
 
 export const actions = [
   'read',

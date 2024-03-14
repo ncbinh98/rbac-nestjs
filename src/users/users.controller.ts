@@ -12,7 +12,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/auth.decorator';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { AbilitiesGuard } from 'src/casl/ability.guard';
 import { checkAbilites } from 'src/casl/abilities.decorator';
 @Controller('users')
