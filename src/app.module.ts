@@ -12,10 +12,10 @@ import { CaslModule } from './casl/casl.module';
 import configuration from './config/configuration';
 import typeorm from './config/typeorm';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisOptions } from './config/redis.config';
 import { UtilsModule } from './utils/utils.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -47,7 +47,7 @@ import { UtilsModule } from './utils/utils.module';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: JwtAuthGuard,
     },
   ],
 })

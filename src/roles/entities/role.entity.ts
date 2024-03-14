@@ -5,9 +5,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,8 +28,7 @@ export class Role {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToOne((type) => Role, { nullable: true })
-  @JoinColumn()
+  @ManyToOne((type) => Role, { nullable: true })
   inheritance: Role;
 
   @OneToMany(() => User, (user) => user.role)

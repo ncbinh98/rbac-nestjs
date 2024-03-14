@@ -10,7 +10,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { connectionSource } from 'src/config/typeorm';
 import { Role } from 'src/roles/entities/role.entity';
 
@@ -23,16 +22,19 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const saltOrRounds = 10;
-      if (!createUserDto?.role?.id) {
-        const roleUser = await connectionSource.getRepository(Role).findOne({
-          where: {
-            name: 'User',
-          },
-        });
-        createUserDto.role = { id: roleUser.id };
-      }
+
+      //Default assign User Role
+      const roleUser = await connectionSource.getRepository(Role).findOne({
+        where: {
+          name: 'User',
+        },
+      });
+
       createUserDto.password = await hash(createUserDto.password, saltOrRounds);
-      const user = await this.usersRepository.save(createUserDto);
+      const user = await this.usersRepository.save({
+        ...createUserDto,
+        role: { id: roleUser.id },
+      });
       delete user.password;
       return user;
     } catch (error) {

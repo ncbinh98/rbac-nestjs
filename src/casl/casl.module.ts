@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { CaslService } from './casl.service';
 
-@Module({
-  providers: [CaslService],
-})
+@Module({})
 export class CaslModule {}
