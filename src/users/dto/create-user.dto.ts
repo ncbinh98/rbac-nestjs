@@ -14,12 +14,6 @@ export class CreateUserDto {
   @IsString()
   username: string;
 
-  @IsObject()
-  @IsOptional()
-  role?: {
-    id: string;
-  };
-
   @IsString()
   @MinLength(6)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
