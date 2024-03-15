@@ -1,17 +1,21 @@
 document.addEventListener('DOMContentLoaded', function (event) {
 	setTimeout(function () {
 		document.querySelectorAll('.opblock-summary').forEach((item) => {
-			if (item.parentElement.classList.contains('is-open')) {
+			item.addEventListener('click', function () {
 				setTimeout(function () {
-					const buttons =
-						item.parentElement.getElementsByClassName('try-out__btn');
-					if (buttons.length > 0) {
-						buttons[0].addEventListener('click', function () {
-							handleTryOutButtonClick(item.parentElement);
-						});
+					if (item.parentElement.classList.contains('is-open')) {
+						setTimeout(function () {
+							const buttons =
+								item.parentElement.getElementsByClassName('try-out__btn');
+							if (buttons.length > 0) {
+								buttons[0].addEventListener('click', function () {
+									handleTryOutButtonClick(item.parentElement);
+								});
+							}
+						}, 200);
 					}
-				}, 100);
-			}
+				}, 200);
+			});
 		});
 	}, 1500);
 });
