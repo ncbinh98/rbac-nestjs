@@ -42,7 +42,11 @@ async function bootstrap() {
 	app.useGlobalPipes(new ValidationPipe());
 
 	//Setup Swaggers
-	configSwagger(app);
+	configSwagger(
+		app,
+		process.env.SWAGGER_USERNAME,
+		process.env.SWAGGER_PASSWORD,
+	);
 
 	await app.listen(process.env.PORT, '0.0.0.0');
 }
