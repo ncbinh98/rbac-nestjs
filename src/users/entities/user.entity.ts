@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Matches, MinLength } from 'class-validator';
 import { Role } from 'src/roles/entities/role.entity';
 import { Story } from 'src/stories/entities/story.entity';
@@ -31,6 +32,7 @@ export class User {
   })
   password: string;
 
+  @ApiProperty({ example: 1, description: '' })
   @Column({ nullable: true })
   age?: number;
 

@@ -16,39 +16,45 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { RedisOptions } from './config/redis.config';
 import { UtilsModule } from './utils/utils.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      load: [configuration, typeorm],
-    }),
-    CacheModule.registerAsync(RedisOptions),
+	imports: [
+		ConfigModule.forRoot({
+			load: [configuration, typeorm],
+		}),
+		CacheModule.registerAsync(RedisOptions),
 
-    /* 
+		/* 
       Setup datasource for migration process and init database instance
     */
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        configService.get('typeorm'),
-    }),
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: (configService: ConfigService) =>
+				configService.get('typeorm'),
+		}),
 
-    UsersModule,
-    AuthModule,
-    RolesModule,
-    PermissionsModule,
-    StoriesModule,
-    CaslModule,
-    UtilsModule,
-  ],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, './served'),
+		}),
+
+		UsersModule,
+		AuthModule,
+		RolesModule,
+		PermissionsModule,
+		StoriesModule,
+		CaslModule,
+		UtilsModule,
+	],
+	controllers: [AppController],
+	providers: [
+		AppService,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard,
+		},
+	],
 })
 export class AppModule {}
