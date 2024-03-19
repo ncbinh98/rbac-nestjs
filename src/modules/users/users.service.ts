@@ -11,7 +11,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
 import { connectionSource } from 'src/config/typeorm';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '../roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {

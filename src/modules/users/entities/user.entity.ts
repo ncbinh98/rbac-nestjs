@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsString, Matches, MinLength } from 'class-validator';
-import { Role } from 'src/roles/entities/role.entity';
-import { Story } from 'src/stories/entities/story.entity';
+import { Role } from 'src/modules/roles/entities/role.entity';
+import { BaseEntity } from 'src/modules/shared/base/base.entity';
+import { Story } from 'src/modules/stories/entities/story.entity';
 import {
 	Entity,
 	Column,
@@ -15,10 +16,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
-	@PrimaryGeneratedColumn('uuid')
-	id: string;
-
+export class User extends BaseEntity {
 	@Column({ nullable: true })
 	name?: string;
 
@@ -44,16 +42,8 @@ export class User {
 	@OneToMany(() => Story, (st) => st.createdUser)
 	stories: Story[];
 
-	@CreateDateColumn()
-	createdAt: Date;
-
-	@UpdateDateColumn()
-	updatedAt: Date;
-
-	@DeleteDateColumn()
-	deletedAt: Date;
-
 	constructor(partial: Partial<User>) {
+		super();
 		Object.assign(this, partial);
 	}
 }

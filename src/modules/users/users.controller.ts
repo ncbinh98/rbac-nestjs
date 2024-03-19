@@ -13,11 +13,11 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/auth/auth.decorator';
-import { AbilitiesGuard } from 'src/casl/ability.guard';
-import { checkAbilites } from 'src/casl/abilities.decorator';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
+import { Public } from '../auth/auth.decorator';
+import { checkAbilites } from '../casl/abilities.decorator';
+import { AbilitiesGuard } from '../casl/ability.guard';
 @ApiTags('Users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)

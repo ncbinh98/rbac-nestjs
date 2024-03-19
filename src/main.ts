@@ -9,7 +9,6 @@ import {
 } from '@nestjs/platform-fastify';
 import helmet from '@fastify/helmet';
 import { configSwagger } from '@configs/api-docs.config';
-import { join } from 'path';
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
 		AppModule,

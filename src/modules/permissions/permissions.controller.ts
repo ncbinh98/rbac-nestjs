@@ -11,9 +11,9 @@ import {
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { checkAbilites } from 'src/casl/abilities.decorator';
-import { AbilitiesGuard } from 'src/casl/ability.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { checkAbilites } from '../casl/abilities.decorator';
+import { AbilitiesGuard } from '../casl/ability.guard';
 @ApiTags('Permissions')
 @Controller('permissions')
 export class PermissionsController {
