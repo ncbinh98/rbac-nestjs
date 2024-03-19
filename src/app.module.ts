@@ -3,21 +3,21 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { RolesModule } from './roles/roles.module';
-import { PermissionsModule } from './permissions/permissions.module';
-import { StoriesModule } from './stories/stories.module';
-import { CaslModule } from './casl/casl.module';
 import configuration from './config/configuration';
 import typeorm from './config/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisOptions } from './config/redis.config';
 import { UtilsModule } from './utils/utils.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
+import { CaslModule } from './modules/casl/casl.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { StoriesModule } from './modules/stories/stories.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
 	imports: [

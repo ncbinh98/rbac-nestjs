@@ -11,9 +11,9 @@ import {
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { checkAbilites } from 'src/casl/abilities.decorator';
-import { AbilitiesGuard } from 'src/casl/ability.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { checkAbilites } from '../casl/abilities.decorator';
+import { AbilitiesGuard } from '../casl/ability.guard';
 
 @ApiTags('Roles')
 @Controller('roles')
