@@ -22,6 +22,7 @@ import {
 	NotFoundException,
 	ForbiddenException,
 	Inject,
+	BadRequestException,
 } from '@nestjs/common';
 import { connectionSource } from 'src/config/typeorm';
 import { In } from 'typeorm';
@@ -29,6 +30,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Permission } from '../permissions/entities/permission.entity';
 import { User } from '../users/entities/user.entity';
+import { ERRORS_DICTIONARY } from 'src/constraints/error-dictionary.contraints';
 
 export const actions = [
 	'read',
@@ -73,6 +75,7 @@ export class AbilitiesGuard implements CanActivate {
 		let permissionCached: any = await this.cacheManager.get(
 			this.getKeyPermissionRedis(currentUser.role.id),
 		);
+
 
 		// Cache permissions of the role
 		if (!permissionCached) {
@@ -122,7 +125,7 @@ export class AbilitiesGuard implements CanActivate {
 
 				// Check overall rule permission
 				ForbiddenError.from(ability)
-					.setMessage('You are not allowed to perform this action')
+					.setMessage(JSON.stringify(ERRORS_DICTIONARY.PERM_NOT_ALLOWED))
 					.throwUnlessCan(rule.action, subject(rule.subject, sub));
 
 				// Check fields for each rule
