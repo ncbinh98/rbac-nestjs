@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './config/configuration';
 import typeorm from './config/typeorm';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisOptions } from './config/redis.config';
 import { UtilsModule } from './utils/utils.module';
@@ -18,6 +18,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { StoriesModule } from './modules/stories/stories.module';
 import { UsersModule } from './modules/users/users.module';
+import { GlobalExceptionFilter } from './exception-filters/global-exception.filter';
 
 @Module({
 	imports: [
@@ -54,6 +55,10 @@ import { UsersModule } from './modules/users/users.module';
 		{
 			provide: APP_GUARD,
 			useClass: JwtAuthGuard,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: GlobalExceptionFilter,
 		},
 	],
 })
