@@ -103,3 +103,15 @@ https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm
 ### Distributed Counter System
 
 - https://systemdesign.one/distributed-counter-system-design/ (count something...)
+
+### Elastic Search
+
+- https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/search_examples.html
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
+
+- https://medium.com/@phatdev/build-a-full-text-search-with-nestjs-mongodb-elasticsearch-and-docker-final-part-3ff13b93f447
+
+- https://viblo.asia/p/tich-hop-elasticsearch-va-kibana-vao-docker-compose-Az45bymqlxY
+
+- https://docs.nestjs.com/techniques/database#subscribers (Subscriber Database)
