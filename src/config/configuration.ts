@@ -3,8 +3,8 @@ export default () => ({
   NODE_ENV: process.env.NODE_ENV,
   database: {
     host: process.env.TYPEORM_MYSQL_HOST,
-    port: parseInt(process.env.DATABTYPEORM_MYSQL_PORTASE_PORT, 10) || 3306,
-    user: process.env.TYPEORM_MYSQL_USER,
+    port: parseInt(process.env.TYPEORM_MYSQL_PORT, 10) || 3306,
+    user: process.env.TYPEORM_MYSQL_USERNAME,
     password: process.env.TYPEORM_MYSQL_PASSWORD,
     db: process.env.TYPEORM_MYSQL_DB,
   },
@@ -19,4 +19,8 @@ export default () => ({
     common_db: process.env.REDIS_COMMON_DB,
     ttl: process.env.REDIS_TTL,
   },
+
+  elasticSearch:{
+    node: process.env.ELASTICSEARCH_NODE
+  }
 });

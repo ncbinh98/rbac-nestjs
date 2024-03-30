@@ -30,7 +30,50 @@ services:
     volumes:
       - cache:/data
 
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    environment:
+      - xpack.security.enabled=false
+      - 'discovery.type=single-node'
+    networks:
+      - es-net
+    ports:
+      - 9200:9200
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1000M
+        reservations:
+          cpus: '0.25'
+          memory: 1000M
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:8.13.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    networks:
+      - es-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1000M
+        reservations:
+          cpus: '0.25'
+          memory: 1000M
+
 volumes:
   mysqldb:
   cache:
     driver: local
+
+networks:
+  es-net:
+    driver: bridge

@@ -3,7 +3,6 @@ import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 dotenvConfig({ path: '.env' });
-
 const config = {
   type: 'mysql',
   host: `${process.env.TYPEORM_MYSQL_HOST}`,

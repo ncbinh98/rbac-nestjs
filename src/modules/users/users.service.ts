@@ -12,12 +12,14 @@ import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
 import { connectionSource } from 'src/config/typeorm';
 import { Role } from '../roles/entities/role.entity';
+import { UserElasticIndex } from '../search/search-index/user.elastic.index';
 
 @Injectable()
 export class UsersService {
 	constructor(
 		@InjectRepository(User)
 		private usersRepository: Repository<User>,
+		private readonly userEsIndex: UserElasticIndex,
 	) {}
 	async create(createUserDto: CreateUserDto): Promise<User> {
 		try {
@@ -64,11 +66,19 @@ export class UsersService {
 		return user;
 	}
 
-	update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`;
+	async update(id: any, updateUserDto: UpdateUserDto) {
+		let user = await this.usersRepository.findOne({ where: { id } });
+		let updateUser = { ...user, ...updateUserDto };
+		user = await this.usersRepository.save(updateUser);
+		delete user.password;
+		return user;
 	}
 
 	remove(id: number) {
 		return `This action removes a #${id} user`;
+	}
+
+	async search(searchField: string, value: string, fuzziness: number) {
+		return await this.userEsIndex.searchUser(value, [searchField], fuzziness);
 	}
 }
