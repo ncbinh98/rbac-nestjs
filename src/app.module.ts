@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -19,6 +19,8 @@ import { RolesModule } from './modules/roles/roles.module';
 import { StoriesModule } from './modules/stories/stories.module';
 import { UsersModule } from './modules/users/users.module';
 import { GlobalExceptionFilter } from './exception-filters/global-exception.filter';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { SearchModule } from './modules/search/search.module';
 
 @Module({
 	imports: [
@@ -48,6 +50,7 @@ import { GlobalExceptionFilter } from './exception-filters/global-exception.filt
 		StoriesModule,
 		CaslModule,
 		UtilsModule,
+		SearchModule,
 	],
 	controllers: [AppController],
 	providers: [
