@@ -11,7 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 			imports: [ConfigModule],
 			useFactory: async (configService: ConfigService) => ({
 				node: configService.get('elasticSearch.node'),
-				maxRetries: 5,
+				maxRetries: 10,
 				requestTimeout: 60000,
 			}),
 			inject: [ConfigService],

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import { connectionSource } from './config/typeorm';
-import { VersioningType } from '@nestjs/common';
+import { Logger, VersioningType } from '@nestjs/common';
 import {
 	FastifyAdapter,
 	NestFastifyApplication,
@@ -46,7 +46,7 @@ async function bootstrap() {
 		process.env.SWAGGER_USERNAME,
 		process.env.SWAGGER_PASSWORD,
 	);
-
+	Logger.log(`---> Get: ${process.env.NODE_ENV}`, 'Environment');
 	await app.listen(process.env.PORT, '0.0.0.0');
 }
 bootstrap();

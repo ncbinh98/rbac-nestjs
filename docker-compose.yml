@@ -2,6 +2,43 @@
 version: '3.1'
 
 services:
+  rbac-api-dev:
+    build:
+      context: .
+      target: develop
+    command: npm run start:dev
+    container_name: rbac-api-dev
+    environment:
+      - NODE_ENV=develop
+    ports:
+      - '3000:3000'
+    restart: always
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - cache
+      - elasticsearch
+      - kibana
+
+  rbac-api-prod:
+    build:
+      context: .
+      target: production
+    container_name: rbac-api-prod
+    environment:
+      - NODE_ENV=production
+    ports:
+      - '3000:3000'
+    restart: always
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - cache
+      - elasticsearch
+      - kibana
+
   db:
     #platform: linux/amd64
     #    hostname: mysql
@@ -20,6 +57,8 @@ services:
       MYSQL_DATABASE: demo
       MYSQL_ROOT_PASSWORD: root
     restart: always
+    networks:
+      - app-network
 
   cache:
     image: redis:6.2-alpine
@@ -29,6 +68,8 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - cache:/data
+    networks:
+      - app-network
 
   elasticsearch:
     container_name: es-container
@@ -37,9 +78,11 @@ services:
       - xpack.security.enabled=false
       - 'discovery.type=single-node'
     networks:
-      - es-net
+      - app-network
     ports:
       - 9200:9200
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
     deploy:
       resources:
         limits:
@@ -55,7 +98,7 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://es-container:9200
     networks:
-      - es-net
+      - app-network
     depends_on:
       - elasticsearch
     ports:
@@ -71,9 +114,10 @@ services:
 
 volumes:
   mysqldb:
+  es-data:
   cache:
     driver: local
 
 networks:
-  es-net:
+  app-network:
     driver: bridge
