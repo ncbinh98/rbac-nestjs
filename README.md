@@ -115,3 +115,7 @@ https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm
 - https://viblo.asia/p/tich-hop-elasticsearch-va-kibana-vao-docker-compose-Az45bymqlxY
 
 - https://docs.nestjs.com/techniques/database#subscribers (Subscriber Database)
+
+### Dockerizing
+
+- https://viblo.asia/p/dockerizing-lti-nestjs-trong-canvas-lms-voi-su-ho-tro-cua-chatgpt-5OXLAobr4Gr
