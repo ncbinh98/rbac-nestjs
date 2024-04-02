@@ -21,6 +21,10 @@
       "@configs/*": [
         "src/config/*"
       ],
-    }
-  }
+    },
+    
+  },
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval"
+}
 }
