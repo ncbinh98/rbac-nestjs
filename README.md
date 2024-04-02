@@ -119,3 +119,4 @@ https://stackoverflow.com/questions/72535879/getconnection-getrepository-typeorm
 ### Dockerizing
 
 - https://viblo.asia/p/dockerizing-lti-nestjs-trong-canvas-lms-voi-su-ho-tro-cua-chatgpt-5OXLAobr4Gr
+- Fix hot reload: https://stackoverflow.com/questions/70446187/nestjs-live-reload-not-working-with-docker
