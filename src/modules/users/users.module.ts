@@ -6,7 +6,6 @@ import { User } from './entities/user.entity';
 import { Role } from '../roles/entities/role.entity';
 import { Story } from '../stories/entities/story.entity';
 import { UserSubscriber } from './users.subscriber';
-import { SearchService } from '../search/search.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([User, Role, Story])],

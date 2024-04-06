@@ -8,7 +8,7 @@ export class Role extends BaseEntity {
 	@Column()
 	name: string;
 
-	@ManyToOne((type) => Role, { nullable: true })
+	@ManyToOne(() => Role, { nullable: true })
 	inheritance: Role;
 
 	@OneToMany(() => User, (user) => user.role)

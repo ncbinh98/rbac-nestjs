@@ -1,11 +1,5 @@
-import {
-	HttpException,
-	HttpStatus,
-	Injectable,
-	OnModuleInit,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
-import { userIndex } from './mapping/user.elastic';
 
 @Injectable()
 export class SearchService {

@@ -76,7 +76,6 @@ export class AbilitiesGuard implements CanActivate {
 			this.getKeyPermissionRedis(currentUser.role.id),
 		);
 
-
 		// Cache permissions of the role
 		if (!permissionCached) {
 			/* The query is performing a recursive query to fetch all the roles and their inheritances

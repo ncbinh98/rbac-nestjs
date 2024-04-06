@@ -1,9 +1,4 @@
-import {
-	BadRequestException,
-	HttpStatus,
-	Injectable,
-	UseGuards,
-} from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -68,7 +63,7 @@ export class UsersService {
 
 	async update(id: any, updateUserDto: UpdateUserDto) {
 		let user = await this.usersRepository.findOne({ where: { id } });
-		let updateUser = { ...user, ...updateUserDto };
+		const updateUser = { ...user, ...updateUserDto };
 		user = await this.usersRepository.save(updateUser);
 		delete user.password;
 		return user;

@@ -14,7 +14,7 @@ export class Permission extends BaseEntity {
 	inverted: boolean;
 
 	@Column({ type: 'simple-json', nullable: true })
-	conditions: {};
+	conditions: object;
 
 	@Column({ type: 'simple-array', nullable: true })
 	fields: string[];

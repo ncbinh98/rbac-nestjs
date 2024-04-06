@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Story } from './entities/story.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Story])],
-  controllers: [StoriesController],
-  providers: [StoriesService],
+	imports: [TypeOrmModule.forFeature([Story])],
+	controllers: [StoriesController],
+	providers: [StoriesService],
 })
 export class StoriesModule {}
