@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { userIndex } from '../mapping/user.elastic';
 import { User } from 'src/modules/users/entities/user.entity';
 import { SearchService } from '../search.service';

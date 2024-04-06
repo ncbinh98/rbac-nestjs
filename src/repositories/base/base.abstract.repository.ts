@@ -55,7 +55,7 @@ export abstract class BaseRepositoryAbstract<T extends BaseEntity>
 	}
 
 	async softDelete(id: any): Promise<boolean> {
-		let deleteItem = await this.repo.findOne({ where: { id } });
+		const deleteItem = await this.repo.findOne({ where: { id } });
 		if (!deleteItem) return false;
 		const dto: any = { deletedAt: new Date() };
 
@@ -63,7 +63,7 @@ export abstract class BaseRepositoryAbstract<T extends BaseEntity>
 	}
 
 	async permanentlyDelete(id: any): Promise<boolean> {
-		let deleteItem = await this.repo.findOne({ where: { id } });
+		const deleteItem = await this.repo.findOne({ where: { id } });
 		if (!deleteItem) return false;
 		return !!(await this.repo.delete({ id }));
 	}

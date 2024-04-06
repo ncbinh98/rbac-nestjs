@@ -4,16 +4,7 @@ import { IsString, Matches, MinLength } from 'class-validator';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { BaseEntity } from 'src/modules/shared/base/base.entity';
 import { Story } from 'src/modules/stories/entities/story.entity';
-import {
-	Entity,
-	Column,
-	PrimaryGeneratedColumn,
-	ManyToOne,
-	OneToMany,
-	CreateDateColumn,
-	UpdateDateColumn,
-	DeleteDateColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
