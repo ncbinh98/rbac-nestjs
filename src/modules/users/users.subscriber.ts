@@ -23,7 +23,7 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
 		return User;
 	}
 
-	beforeInsert(event: InsertEvent<User>) {}
+	// beforeInsert(event: InsertEvent<User>) {}
 
 	async afterInsert(event: InsertEvent<User>): Promise<any> {
 		this.logger.log(

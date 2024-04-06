@@ -22,7 +22,6 @@ import {
 	NotFoundException,
 	ForbiddenException,
 	Inject,
-	BadRequestException,
 } from '@nestjs/common';
 import { connectionSource } from 'src/config/typeorm';
 import { In } from 'typeorm';
@@ -129,7 +128,7 @@ export class AbilitiesGuard implements CanActivate {
 
 				// Check fields for each rule
 				if (rule.fields) {
-					Object.keys(request.body).forEach((k, v) => {
+					Object.keys(request.body).forEach((k) => {
 						ForbiddenError.from(ability)
 							.setMessage(`You are not allowed to update field ${k}`)
 							.throwUnlessCan(rule.action, subject(rule.subject, sub), k);
@@ -154,7 +153,7 @@ export class AbilitiesGuard implements CanActivate {
 		const data = map(permissions, (permission) => {
 			if (size(permission.conditions)) {
 				const preConds = {};
-				Object.keys(permission.conditions).forEach((k, v) => {
+				Object.keys(permission.conditions).forEach((k) => {
 					const parsedVal = Mustache.render(
 						permission.conditions[k],
 						currentUser,
