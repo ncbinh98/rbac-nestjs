@@ -19,13 +19,21 @@ import { RolesModule } from './modules/roles/roles.module';
 import { StoriesModule } from './modules/stories/stories.module';
 import { UsersModule } from './modules/users/users.module';
 import { GlobalExceptionFilter } from './exception-filters/global-exception.filter';
-import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { SearchModule } from './modules/search/search.module';
+import * as Joi from 'joi';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
+			validationSchema: Joi.object({
+				NODE_ENV: Joi.string()
+					.valid('develop', 'production', 'test', 'staging')
+					.default('develop'),
+				PORT: Joi.number().default(3000),
+			}),
 			load: [configuration, typeorm],
+			cache: true,
+			expandVariables: true,
 		}),
 		CacheModule.registerAsync(RedisOptions),
 
